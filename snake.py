@@ -65,12 +65,6 @@ food.penup()
 food.shapesize(.5, .5)
 food.goto(0, 0)
 
-# Move food randomly
-if head.distance(food) < 10:
-    x = random.randint(-290, 290)
-    y = random.randint(-290, 290)
-    food.goto(x, y)
-
 # Keyboard binding, move around
 screen.listen()
 screen.onkeypress(move_up, "w")
@@ -81,6 +75,12 @@ screen.onkeypress(move_right, "d")
 # Main loop
 while True:
     screen.update()
+
+    # Move food randomly
+    if head.distance(food) < 30:
+        x = random.randint(-290, 290)
+        y = random.randint(-290, 290)
+        food.goto(x, y)
 
     move()
 
