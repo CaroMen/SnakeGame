@@ -72,6 +72,23 @@ screen.onkeypress(move_down, "s")
 screen.onkeypress(move_left, "a")
 screen.onkeypress(move_right, "d")
 
+seg = []
+
+# add tail
+new_seg = turtle.Turtle()
+new_seg.speed(0)
+new_seg.shape("square")
+new_seg.color("white")
+new_seg.penup()
+seg.append(new_seg)
+
+# move the tail
+for index in range(len(seg) - 1, 0, -1):
+    x = seg[index - 1].xcor()
+    y = seg[index - 1].ycor()
+    seg[index].goto(x, y)
+
+
 # Main loop
 while True:
     screen.update()
