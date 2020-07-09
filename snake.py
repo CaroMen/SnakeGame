@@ -76,11 +76,34 @@ screen.onkeypress(move_down, "s")
 screen.onkeypress(move_left, "a")
 screen.onkeypress(move_right, "d")
 
-seg = []
+segments = []
+
+pen = turtle.Turtle()
+pen.speed(0)
+pen.shape("square")
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 260)
+pen.write("Score: 0 High Score: 0", align="center",
+          font=("Courier", 24, "normal"))
 
 # Main loop
 while True:
     screen.update()
+
+    # Checks for collision with border
+    if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < -290:
+        time.sleep(1)
+        head.goto(0, 0)
+        head.direction = "stop"
+
+        for segment in segments:
+            segment.goto(1000, 1000)
+
+        segments.clear()
+
+        delay = 0.1
 
     # Move food randomly
     if head.distance(food) < 20:
@@ -94,47 +117,36 @@ while True:
         new_seg.shape("square")
         new_seg.color("white")
         new_seg.penup()
-        seg.append(new_seg)
+        segments.append(new_seg)
 
         delay -= 0.001
 
     # move the tail
-    for index in range(len(seg) - 1, 0, -1):
-        x = seg[index - 1].xcor()
-        y = seg[index - 1].ycor()
-        seg[index].goto(x, y)
+    for index in range(len(segments) - 1, 0, -1):
+        x = segments[index - 1].xcor()
+        y = segments[index - 1].ycor()
+        segments[index].goto(x, y)
 
-    if len(seg) > 0:
+    if len(segments) > 0:
         x = head.xcor()
         y = head.ycor()
-        seg[0].goto(x, y)
+        segments[0].goto(x, y)
 
     move()
 
-    # Checks for collision with border
-    if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < -290:
-        time.sleep(1)
-        head.goto(0, 0)
-        head.direction = "stop"
-
-        for segment in seg:
-            segment.goto(1000, 1000)
-
-        seg.clear()
-
-        delay = 0.1
-
     # Checks for collision with body
-    for segment in seg:
-        if segment.distance(head) < 20:
-            time.sleep(1)
-            head.goto(0, 0)
-            head.direction = "stop"
+    # for segment in segments:
+    #     if segment.distance(head) < 20:
+    #         time.sleep(1)
+    #         head.goto(0, 0)
+    #         head.direction = "stop"
 
-            for segment in seg:
-                segment.goto(1000, 1000)
+    #         for segment in segments:
+    #             segment.goto(1000, 1000)
 
-            seg.clear()
+    #         segments.clear()
+
+    #         delay = 0.1
 
     time.sleep(delay)
 
